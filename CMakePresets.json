@@ -65,7 +65,7 @@
     {
       "name": "msvc-win64-vcpkg-release",
       "configurePreset": "msvc-win64-vcpkg",
-      "configuration": "Release"
+      "configuration": "RelWithDebInfo"
     }
   ]
 }
