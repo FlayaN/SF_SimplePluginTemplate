@@ -8,6 +8,14 @@ project(
 )
 
 # ########################################################################################################################
+# ## Source build guard
+# ########################################################################################################################
+
+if(PROJECT_SOURCE_DIR STREQUAL PROJECT_BINARY_DIR)
+	message(FATAL_ERROR "In-source builds not allowed. Please make a new directory (called a build directory) and run CMake from there.")
+endif()
+
+# ########################################################################################################################
 # ## Build options
 # ########################################################################################################################
 
@@ -36,6 +44,7 @@ configure_file(
 	@ONLY
 )
 
+set_property(GLOBAL PROPERTY USE_FOLDERS ON)
 set(CMAKE_INTERPROCEDURAL_OPTIMIZATION ON)
 set(CMAKE_INTERPROCEDURAL_OPTIMIZATION_DEBUG OFF)
 set(COMMONLIBSF_CMAKE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/extern/CommonLibSF/CommonLibSF/cmake")
@@ -51,19 +60,37 @@ find_path(CLIB_UTIL_INCLUDE_DIRS "ClibUtil/detail/SimpleIni.h")
 # # Headers and sources
 # #######################################################################################################################
 
-file(GLOB_RECURSE headers
+file(GLOB_RECURSE INCLUDE_HEADERS
 	LIST_DIRECTORIES false
 	CONFIGURE_DEPENDS
 	"include/*.h"
 	"include/*.hpp"
+)
+source_group(TREE ${CMAKE_CURRENT_SOURCE_DIR}/include
+	PREFIX "Header Files"
+	FILES ${INCLUDE_HEADERS}
+)
+
+file(GLOB_RECURSE SOURCE_HEADERS
+	LIST_DIRECTORIES false
+	CONFIGURE_DEPENDS
 	"src/*.h"
 	"src/*.hpp"
 )
+source_group(
+	TREE ${CMAKE_CURRENT_SOURCE_DIR}/src
+	PREFIX "Header Files"
+	FILES ${SOURCE_HEADERS}
+)
 
-file(GLOB_RECURSE sources
+file(GLOB_RECURSE SOURCES
 	LIST_DIRECTORIES false
 	CONFIGURE_DEPENDS
 	"src/*.cpp"
+)
+source_group(TREE ${CMAKE_CURRENT_SOURCE_DIR}/src
+	PREFIX "Source Files"
+	FILES ${SOURCES}
 )
 
 # #######################################################################################################################
@@ -75,7 +102,7 @@ add_subdirectory(extern/CommonLibSF)
 add_commonlibsf_plugin(
 	${PROJECT_NAME} 
 	AUTHOR ${PROJECT_AUTHOR}
-	SOURCES ${headers} ${sources}
+	SOURCES ${INCLUDE_HEADERS} ${SOURCE_HEADERS} ${SOURCES}
 )
 
 # #######################################################################################################################
