@@ -1,0 +1,36 @@
+name: Update submodules
+
+on:
+  workflow_dispatch:
+
+env:
+  VCPKG_COMMIT_ID: db0473513e5dc73ec6b6f431ff05d2f398eea042
+
+jobs:
+  update_submodules:
+    runs-on: windows-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: update submodule
+        run: |
+          git submodule update --init --recursive -f
+          git submodule update --remote -f
+
+      - name: run vcpkg
+        uses: lukka/run-vcpkg@v11
+        with:
+          vcpkgGitCommitId: ${{ env.VCPKG_COMMIT_ID }}
+
+      - name: build
+        run: |
+          cmake --preset msvc-win64-vcpkg
+          cmake --build build --preset msvc-win64-vcpkg-release
+
+      - name: Commit changes
+        uses: stefanzweifel/git-auto-commit-action@v4
+        with:
+          file_pattern: "extern/CommonLibSF"
+          commit_message: "build: :arrow_up_small: update commonlibsf submodule"
