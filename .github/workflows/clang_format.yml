@@ -2,11 +2,9 @@ name: Run clang-format Linter
 
 on:
   push:
-    branches:
-      - main
+    branches: main
   pull_request_target:
-    branches:
-      - main
+    branches: main
   workflow_dispatch:
 
 jobs:
@@ -31,5 +29,5 @@ jobs:
       - name: Commit changes
         uses: stefanzweifel/git-auto-commit-action@v4
         with:
-          commit_message: "style: 🎨 apply clang-format changes"
+          commit_message: "style: :art: apply clang-format changes"
           branch: ${{ github.head_ref }}

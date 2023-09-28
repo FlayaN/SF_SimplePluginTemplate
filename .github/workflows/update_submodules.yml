@@ -19,10 +19,11 @@ jobs:
           git submodule update --init --recursive -f
           git submodule update --remote -f
 
-      - name: run vcpkg
-        uses: lukka/run-vcpkg@v11
+      - name: Setup vcpkg
+        uses: lukka/run-vcpkg@v11.1
         with:
           vcpkgGitCommitId: ${{ env.VCPKG_COMMIT_ID }}
+          vcpkgJsonGlob: vcpkg.json
 
       - name: build
         run: |
