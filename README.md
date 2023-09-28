@@ -22,8 +22,8 @@ To put it shortly: when you distribute a binary linked against CommonLibSF, you 
 
 ```bat
 rd /s /q "%~dp0/build"
-cmake --preset msvc-win64-vcpkg
-cmake --build build --preset msvc-win64-vcpkg-release
+cmake --preset build-release-msvc-msvc
+cmake --build build --preset release-msvc-msvc
 ```
 
 ### Dependencies

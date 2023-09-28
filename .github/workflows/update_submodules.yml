@@ -14,6 +14,9 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
+      - name: Get CMake
+        uses: lukka/get-cmake@latest
+
       - name: update submodule
         run: |
           git submodule update --init --recursive -f
@@ -25,10 +28,11 @@ jobs:
           vcpkgGitCommitId: ${{ env.VCPKG_COMMIT_ID }}
           vcpkgJsonGlob: vcpkg.json
 
-      - name: build
-        run: |
-          cmake --preset msvc-win64-vcpkg
-          cmake --build build --preset msvc-win64-vcpkg-release
+      - name: Run CMake
+        uses: lukka/run-cmake@v10
+        with:
+          configurePreset: build-release-msvc-ninja
+          buildPreset: release-msvc-ninja
 
       - name: Commit changes
         uses: stefanzweifel/git-auto-commit-action@v4

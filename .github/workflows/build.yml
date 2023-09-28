@@ -19,16 +19,20 @@ jobs:
         with:
           submodules: true
 
+      - name: Get CMake
+        uses: lukka/get-cmake@latest
+
       - name: Setup vcpkg
         uses: lukka/run-vcpkg@v11.1
         with:
           vcpkgGitCommitId: ${{ env.VCPKG_COMMIT_ID }}
           vcpkgJsonGlob: vcpkg.json
 
-      - name: build
-        run: |
-          cmake --preset msvc-win64-vcpkg
-          cmake --build build --preset msvc-win64-vcpkg-release
+      - name: Run CMake
+        uses: lukka/run-cmake@v10
+        with:
+          configurePreset: build-release-msvc-ninja
+          buildPreset: release-msvc-ninja
 
       - name: Upload Artifact
         uses: actions/upload-artifact@v3
