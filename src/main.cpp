@@ -13,9 +13,6 @@ void MessageHandler(SFSE::MessagingInterface::Message* a_message)
 
 DLLEXPORT bool SFSEAPI SFSEPlugin_Load(const SFSE::LoadInterface* a_sfse)
 {
-#ifndef NDEBUG
-	MessageBoxA(NULL, "Loaded. You can attach the debugger now", std::string(Plugin::Name).data(), NULL);
-#endif
 	SFSE::Init(a_sfse);
 
 	auto version = Plugin::Version.string();

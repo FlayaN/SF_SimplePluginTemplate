@@ -31,7 +31,7 @@
       "hidden": true,
       "cacheVariables": {
         "CMAKE_BUILD_TYPE": "Debug",
-        "CMAKE_SHARED_LINKER_FLAGS_DEBUG": "/CGTHREADS:8 /INCREMENTAL:NO /DEBUG:FULL /DEBUGTYPE:FIXUP"
+        "CMAKE_SHARED_LINKER_FLAGS_DEBUG": "/CGTHREADS:8 /DEBUG:FULL"
       }
     },
     {

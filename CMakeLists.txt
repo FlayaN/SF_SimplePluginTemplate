@@ -151,15 +151,16 @@ set_target_properties(
 # #######################################################################################################################
 
 if (COPY_BUILD)
-	if (DEFINED SFDataPath)
+	if (DEFINED SFDATA_PATH)
+		message("Copying mod to ${SFDATA_PATH}/SFSE/Plugins")
 		add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
-			COMMAND ${CMAKE_COMMAND} -E copy $<TARGET_FILE:${PROJECT_NAME}> ${SFDataPath}/SFSE/Plugins/
-			COMMAND ${CMAKE_COMMAND} -E copy $<TARGET_PDB_FILE:${PROJECT_NAME}> ${SFDataPath}/SFSE/Plugins/
+			COMMAND ${CMAKE_COMMAND} -E copy $<TARGET_FILE:${PROJECT_NAME}> ${SFDATA_PATH}/SFSE/Plugins/
+			COMMAND ${CMAKE_COMMAND} -E copy $<TARGET_PDB_FILE:${PROJECT_NAME}> ${SFDATA_PATH}/SFSE/Plugins/
 		)
 	else ()
 		message(
 			WARNING
-			"Variable SFDataPath is not defined. Skipping post-build copy command."
+			"Variable SFDATA_PATH is not defined. Skipping post-build copy command."
 		)
 	endif ()
 endif ()
